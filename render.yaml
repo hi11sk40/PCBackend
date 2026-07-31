@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: meta-attestation-backend
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --workers 1 --threads 8 --timeout 90 app:app
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.5
+      - key: META_APP_ACCESS_TOKEN
+        sync: false
+      - key: PLAYFAB_TITLE_ID
+        sync: false
+      - key: VALID_PACKAGE
+        sync: false
+      - key: VALID_CERT_SHA256
+        sync: false
+      - key: PHOTON_JWT_SECRET
+        sync: false
+      - key: PHOTON_PROVIDER_SECRET
+        sync: false
+      - key: ATTESTATION_MODE
+        value: enforce
+      - key: ALLOW_BASIC_DEVICE
+        value: "false"
+      - key: CHALLENGE_TTL_SECONDS
+        value: "300"
+      - key: PHOTON_TOKEN_LIFETIME_SECONDS
+        value: "180"
